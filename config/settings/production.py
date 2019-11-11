@@ -77,3 +77,13 @@ CACHES = {
 # Your production stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+    'machina_attachments': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp',
+    },
+}

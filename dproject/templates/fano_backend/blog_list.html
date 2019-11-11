@@ -1,0 +1,87 @@
+{% extends 'fano_backend/backend_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+        <link rel="stylesheet" href="{% static 'fano_backend/js/datatables/datatables.css' %}" type="text/css" />
+{% endblock extra_css %}
+
+{% block main_content %}
+
+        <section id="content">
+            <section class="vbox">
+                <section class="scrollable padder">
+                    <div class="m-b-md">
+                        <h3 class="m-b-none">Blog List</h3> </div>
+                     {% if messages %}
+                            {% for message in messages %}
+                                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }} {% endif %} alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <span style="margin-left: 10px">{{ message }}</span>
+                                    </div>
+                            {% endfor %}
+                     {% endif %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span style="margin-left: 10px">{{ form.errors }}</span>
+                        </div>
+                    {% endif %}
+                    <section class="panel panel-default">
+                        <header class="panel-heading"> Table List <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+                        <div class="table-responsive">
+                            <table class="table table-striped m-b-none" data-ride="datatables">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%">ID</th>
+                                        <th style="width:30%">Title</th>
+                                        <th style="width:10%">Author</th>
+                                        <th style="width:15%">Date Created</th>
+                                        <th style="width:10%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for blog in object_list %}
+                                        <tr>
+                                            <td>{{ blog.id }}</td>
+                                            <td>{{ blog.title }}</td>
+                                            <td>{{ blog.author }}</td>
+                                            <td>{{ blog.date|date }}</td>
+                                            <td>
+                                                <a href="{% url 'blog_detail' blog.slug %}" target="_blank">
+                                                    <button class="btn-xs btn-success">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                </a>
+                                                 <a href="{% url 'update_blog' blog.slug %}">
+                                                    <button class="btn-xs btn-primary">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                </a>
+                                                <a href="{% url 'delete_blog' blog.id %}" class="confirm-delete">
+                                                    <button class="btn-xs btn-danger">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+            </section>
+            <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
+        </section>
+
+{% endblock main_content %}
+
+{% block extra_js %}
+        <script src="{% static 'fano_backend/js/datatables/jquery.csv-0.71.min.js' %}"></script>
+        <script src="{% static 'fano_backend/js/datatables/demo.js' %}"></script>
+        <script src="{% static 'fano_backend/js/datatables/jquery.dataTables.min.js' %}"></script>
+
+{% endblock extra_js %}
+

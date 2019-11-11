@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block logo %}
+
+{% endblock logo %}
+
+{% block page_content %}
+    <!-- PAGE TITLE SMALL -->
+    <div class="har_page_title har_page_title_great har_image_bck har_fixed har_wht_txt" data-stellar-background-ratio="0.2" data-image="{% static 'images/studio/sl_2.jpg' %}">
+
+
+      <!-- Over -->
+      <div class="har_over" data-color="#000" data-opacity="0.4"></div>
+
+      <div class="container text-left">
+        <div class="row">
+
+          <div class="col-md-8">
+            <h1 class="har_h1_title">Our Artistes</h1>
+          </div>
+
+          <div class="col-md-4">
+            <div class="breadcrumbs">
+              <a href="{% url 'homepage' %}">Home</a><a href="#">Artiste List</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <section id="har_content" class="har_content">
+
+        <!-- section -->
+        <section class="har_section har_image_bck" >
+            <div class="container text-center">
+
+                <h2>FANO Artistes</h2>
+
+                <!-- boxes -->
+                <div class="har_icon_boxes row text-left">
+
+                    <!-- animation -->
+                    <div data-animation="animation_blocks" data-bottom="@class:noactive" data--100-bottom="@class:active">
+
+                        {% for artist in object_list %}
+                        <!-- item -->
+                        <div class="col-md-4 col-sm-6">
+                            <div class="har_news_block text-center">
+                                <a href="{% url 'artist_detail' artist.id %}">
+                                    <span class="har_news_img">
+                                        {% if artist.avatar %}
+                                        <img src="{{ artist.avatar.url }}" alt="">
+                                            {% else %}
+                                            <img src="{% static 'images/artist_dummy.jpg' %}">
+                                        {% endif %}
+
+                                    </span>
+                                </a>
+                                <span class="har_news_title">{{ artist.user.first_name }} {{ artist.user.last_name }}</span>
+                                <!--<span class="har_news_author">{{ artist.profession }}</span>-->
+                                <!--<p>{{ artist.about_me|truncatewords:10 }}</p>-->
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- section end -->
+
+
+     </section>
+
+{% endblock page_content %}

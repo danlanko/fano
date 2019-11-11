@@ -1,0 +1,64 @@
+{% extends 'fano_backend/backend_base.html' %}
+{% load static %}
+
+    {% block main_content %}
+        <section id="content">
+            <section class="vbox">
+                <section class="scrollable padder">
+                    <div class="m-b-md">
+                        <h3 class="m-b-none">Create New Song</h3>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }} {% endif %} alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <span style="margin-left: 10px">{{ message }}</span>
+                                </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span style="margin-left: 10px">{{ form.errors }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form data-validate="parsley" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <section class="panel panel-default">
+                                    <header class="panel-heading"> <span class="h4">New song form</span> </header>
+
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label>Title: <small style="color: darkred">*</small> </label>
+                                            {{ form.title }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Cover Art: </label>
+                                            {{ form.cover_art }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Music: <small style="color: darkred">*</small>  </label>
+                                            {{ form.music }}
+                                        </div>
+                                    </div>
+
+                                    <footer class="panel-footer text-right bg-light lter">
+                                        <button type="submit" class="btn btn-success btn-s-xs">Submit</button>
+                                    </footer>
+
+                                </section>
+
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </section>
+    {% endblock main_content %}
+
+    {% block extra_js %}
+
+    {% endblock extra_js %}

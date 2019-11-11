@@ -1,12 +1,305 @@
-{% extends "base.html" %}
-{% load i18n %}
+{% extends 'base.html' %}
+{% load static %}
 
-{% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h1>{% trans 'Django successfully installed' %}</h1>
+
+{% block playlist %}
+{% endblock playlist %}
+
+{% block page_content %}
+    <div class="har_firefly" data-total="80" data-minPixel="1" data-maxPixel="5"></div>
+
+    <!-- Slider -->
+    <div class="har_slider_carousel" id="home">
+
+        <!-- Item -->
+        <div class="har_slider har_wht_txt">
+
+            <div class="har_slider_img har_image_bck" data-image="{% static 'images/fano.jpg' %}"></div>
+
+            <!-- Over -->
+            <div class="har_over" data-color="#000" data-opacity="0"></div>
+            <!-- Slider Texts -->
+            <div class="container">
+                 <div class="har_slide_txt har_slide_left_middle text-left" data-0="opacity:1; margin-top:0px" data--400-bottom="opacity:0; margin-top:-100px">
+                     <div class="har_slide_title">Welcome to Fano<br></div>
+                     <div class="har_slide_subtitle">Awesome Creativity</div>
+                 </div>
+            </div>
+         <!-- Slider Texts End -->
+        </div>
+
+
+         <!-- Item -->
+         <div class="har_slider  har_wht_txt">
+
+            <div class="har_slider_img har_image_bck" data-image="{% static 'images/fabo2.jpg' %}"></div>
+
+            <!-- Over -->
+            <div class="har_over" data-color="#000" data-opacity="0"></div>
+            <!-- Slider Texts -->
+            <div class="container">
+                 <div class="har_slide_txt har_slide_left_middle text-left" data-0="opacity:1; margin-top:0px" data--400-bottom="opacity:0; margin-top:-100px">
+                    <div class="har_slide_title">Taking Fano to <br>the world</div>
+                    <div class="har_slide_subtitle">Awesome Creativity</div>
+                </div>
+            </div>
+        <!-- Slider Texts End -->
+        </div>
+
     </div>
-  </div>
-</div>
-{% endblock %}
+    <!-- Slider End -->
+
+
+
+<!-- Content -->
+<section id="har_content" class="har_content">
+
+
+    <!-- section -->
+    {% if fano_artist %}
+    <section class="har_section har_image_bck" id="artist">
+        <div class="container text-center">
+            <h2>Our ARTISTES</h2>
+            <h3>This is who create magic. <br>Our team creates something special for you</h3>
+
+            <!-- boxes -->
+            <div class="har_icon_boxes row text-center">
+
+
+                <!-- slider -->
+                <div class="har_team_slider">
+                    {% for art in fano_artist %}
+                    <!-- item -->
+                    <div class="har_icon_box har_team_box">
+                        <div class="har_icon_box_photo">
+                            <img src="{{ art.image.url }}" alt="">
+                        </div>
+                        <div class="har_item_social">
+                            <a href="{{ art.facebook }}"><i class="fa fa-facebook"></i></a>
+                            <a href="{{ art.instagram }}"><i class="fa fa-instagram"></i></a>
+                        </div>
+                        <h4><b>{{ art.artist_name }}</b> <br>{{ art.designation }}</h4>
+                    </div>
+                    {% endfor %}
+
+                </div>
+                <!-- slider end -->
+            </div>
+            <!-- boxes end -->
+
+
+        </div>
+        <!-- container end -->
+
+    </section>
+    <!-- section end -->
+    {% endif %}
+
+
+    <!-- section -->
+    <section class="har_section har_image_bck" id="about">
+        <div class="container-fluid text-center">
+
+            <!-- row -->
+            <div class="row har_auto_height">
+
+                <!-- item -->
+                <div class="col-md-12 har_image_bck har_wht_txt" data-color="#8f772d">
+                    <div class="har_simple_block_mini">
+                        <h2>About Fano </h2>
+                        <p style="font-size: 20px">Famous Artistes Night Out popularly known as FANO is an initiative to train, promote and also manage talented entertainers to become professional musicians, comedians, dancers and actors as well as enable them to see the business aspect of entertainment beyond the luxury and fun. Discipline is our major target in this project...</p>
+                    </div>
+                </div>
+            </div>
+            <!-- row end -->
+
+        </div>
+        <!-- container end -->
+
+    </section>
+    <!-- section end -->
+
+    <!-- section -->
+    <section class="har_section har_image_bck har_wht_txt har_fixed" data-image="{% static 'images/slider/sl2.jpg' %}" data-stellar-background-ratio="0.2" id="next_event">
+
+        <!-- Over -->
+        <div class="har_over" data-color="#333" data-opacity="0.8"></div>
+
+        <div class="container text-center">
+
+            <h2>Next Event</h2>
+            <h3>Stay tuned<br>Our next event is coming soon</h3>
+            <!-- CountDown -->
+            {% if event %}
+            <span class="har_countdown" data-year="2019" data-month="08" data-day="13"></span>
+            {% else %}
+            <h3>No event coming soon. Please check back later</h3>
+            {% endif %}
+
+        </div>
+        <!-- container end -->
+
+    </section>
+    <!-- section end -->
+
+    {% if gallery %}
+    <!-- section -->
+    <section class="har_section har_image_bck" id="gallery">
+        <div class="container-fluid text-center">
+
+            <h2>Photo Gallery</h2>
+            <h3>Explore our life & events <br></h3>
+
+            <!-- filters -->
+            <div class="button-group filter-button-group">
+                <a data-filter="*">Show All</a>
+                {% for item in gallery_cat %}
+                <a data-filter=".{{ item.cat_name }}">{{ item.cat_name }}</a>
+                {% endfor %}
+            </div>
+            <!-- filters end -->
+            {% for item in gallery %}
+            <!-- grid -->
+            <div class="har_portfolio grid">
+                <!-- item -->
+                <div class="col-sm-4 har_portfolio_item grid-item {{ item.cat_name }}">
+                    <div class="har_portfolio_item_cont">
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                        <span class="har_port_titles">
+                          <span class="har_port_title">{{ item.title }}</span>
+                          <span class="har_port_icons">
+                              {% if item.link %}
+                              <a href="{{ item.link }}"><i class="fa fa-link"></i></a>
+                              {% endif %}
+                              <a href="{{ item.image.ur  }}" class="lightbox"><i class="fa fa-search"></i></a>
+                          </span>
+                      </span>
+                  </div>
+              </div>
+            </div>
+        {% endfor %}
+        </div>
+    </section>
+        {% endif %}
+
+<!-- section -->
+<section class="har_section har_image_bck" data-color="#f2f2f2" id="video">
+    <div class="container text-center">
+
+        <h2>Video Gallery</h2>
+        <h3>If it is something good, you’ll know first. <br>Follow us on Youtube view more</h3>
+
+        {% if video %}
+        <div class="har_db_slider">
+            {% for item in video %}
+            <!-- item -->
+            <div class="har_video_item">
+                <iframe src="https://www.youtube.com/embed/{{ item.link }}" allowfullscreen></iframe>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- slider end -->
+        {% else %}
+            <h2>No video uploaded at the moment, please check back later</h2>
+        {% endif %}
+
+    </div>
+    <!-- container end -->
+</section>
+<!--section end -->
+
+<!-- section -->
+<section class="har_section" id="blog">
+
+    <div class="container-fluid text-center">
+        <h2>News and Updates</h2>
+        <h3>Get the latest of entertainment news <br></h3>
+
+        {% if blog %}
+        <div class="row har_new_events har_wht_txt">
+            {% for item in blog %}
+            <!-- item -->
+            <a href="{% url 'blog_detail' item.slug %}" class="har_new_events_item col-md-4">
+                <div class="har_new_events_item_desc har_image_bck" data-color="#06588D">
+                    <span><b>{{ item.date|date:'D' }}</b>{{ item.date|date:'M' }} {{ item.date|date:'Y' }}</span>
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.context|safe|truncatechars:100 }}</p>
+                    <!--<h5><span class="fa fa-location-pin"></span> {{ item.author }}</h5>-->
+                </div>
+                <span class="har_new_events_item_img har_image_bck" data-image="{{ item.image.url }}"><b>See</b></span>
+            </a>
+            {% endfor %}
+        </div>
+        <!-- row end -->
+          {% else %}
+            <h2>No news update at the moment. Please check back later</h2>
+
+        {% endif %}
+
+    </div>
+    <!-- container end -->
+
+</section>
+<!-- section end -->
+
+<!-- section -->
+<section class="har_section har_image_bck har_wht_txt har_fixed" data-image="{% static 'images/slider/sl3.jpg' %}" data-stellar-background-ratio="0.2" id="contacts">
+
+    <!-- Over -->
+    <div class="har_over" data-color="#000" data-opacity="0.6"></div>
+
+    <div class="container-fluid text-center">
+
+            <div class="row">
+                <!-- animation -->
+                <div data-animation="animation_blocks" data-bottom="@class:noactive" data--100-bottom="@class:active">
+                    <div class="col-md-8 col-sm-12 col-md-offset-2 har_form_animation">
+                        <h2>Contact Us</h2>
+                        <h3>We will like to hear from you.</h3>
+                        {% if messages %}
+                            {% for message in messages %}
+                                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }} {% endif %} alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <span style="margin-left: 10px">{{ message }}</span>
+                                    </div>
+                            {% endfor %}
+                     {% endif %}
+
+                        <form id="har_form" method="post" action="{% url 'contact_form' %}">
+                            {% csrf_token %}
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" placeholder="Name" name="name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" placeholder="E-mail" name="email" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" placeholder="Phone" name="phone" required>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea class="form-control" placeholder="Message" name="message" required></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <script src='https://www.google.com/recaptcha/api.js'></script>
+                                <div class="g-recaptcha" data-sitekey="6Lcms7YUAAAAAMnyfL9ca7eKfDFgiWT1qQdvJ_PE"></div>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="submit" class="btn btn-success" value="Send">
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <!-- col end -->
+                </div>
+
+            </div>
+            <!-- row end -->
+    </div>
+    <!-- container end -->
+</section>
+<!-- section end -->
+
+</section>
+<!-- main section end -->
+    {% endblock page_content %}

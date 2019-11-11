@@ -1,0 +1,97 @@
+{% extends 'fano_backend/backend_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+        <link rel="stylesheet" href="{% static 'fano_backend/js/datatables/datatables.css' %}" type="text/css" />
+{% endblock extra_css %}
+
+{% block main_content %}
+
+        <section id="content">
+            <section class="vbox">
+                <section class="scrollable padder">
+                    <div class="m-b-md">
+                        <h3 class="m-b-none">All songs</h3> </div>
+                     {% if messages %}
+                            {% for message in messages %}
+                                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }} {% endif %} alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <span style="margin-left: 10px">{{ message }}</span>
+                                    </div>
+                            {% endfor %}
+                     {% endif %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span style="margin-left: 10px">{{ form.errors }}</span>
+                        </div>
+                    {% endif %}
+                    <section class="panel panel-default">
+                        <header class="panel-heading"> Table List <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+                        <div class="table-responsive">
+                            <table class="table table-striped m-b-none" data-ride="datatables">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%">ID</th>
+                                        <th style="width:15%">Album Art</th>
+                                        <th style="width:25%">Title</th>
+                                        <th style="width:15%">Play Song</th>
+                                        <th style="width:10%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for song in object_list %}
+                                        <tr>
+                                            <td>{{ song.id }}</td>
+                                            <td>
+                                                {% if song.cover_art %}
+                                                    {{ song.cover_art }}</td>
+                                                {% else %}
+                                                    <img style="max-width: 50px" src="{% static 'images/album_art.jpg' %}">
+                                                {% endif %}
+                                            <td>{{ song.title }}</td>
+                                            <td>
+                                                <audio controls>
+                                                    <source src="{{ song.music.url }}" type="audio/mp3">
+                                                    <source src="{{ song.music.url }}" type="audio/ogg">
+                                                     Your browser does not support the audio element.
+                                                </audio>
+                                            </td>
+                                            <td>
+                                                {% if user.is_active %}
+                                                    <a href="{% url 'update_song' song.id %}">
+                                                        <button class="btn-xs btn-warning">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                    </a>
+                                                    <a href="{% url 'delete_song' song.id %}">
+                                                        <button class="btn-xs btn-delete confirm-delete">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="#"><button class="btn-xs btn-success"><i class="fa fa-edit"></i></button></a>
+                                                    <a href="#"><button class="btn-xs btn-delete confirm-delete"><i class="fa fa-trash"></i></button></a>
+                                                {% endif %}
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+            </section>
+            <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
+        </section>
+
+{% endblock main_content %}
+
+{% block extra_js %}
+        <script src="{% static 'fano_backend/js/datatables/jquery.csv-0.71.min.js' %}"></script>
+        <script src="{% static 'fano_backend/js/datatables/demo.js' %}"></script>
+        <script src="{% static 'fano_backend/js/datatables/jquery.dataTables.min.js' %}"></script>
+
+{% endblock extra_js %}
+

@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="bg-info">
+<head>
+    <meta charset="utf-8" />
+    <title>Fano | fano to the world</title>
+    <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="{% static 'fano_backend/js/jPlayer/jplayer.flat.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'fano_backend/css/app.v1.css' %}" type="text/css" />
+    <!--[if lt IE 9]>
+        <script src="js/ie/html5shiv.js"></script>
+        <script src="js/ie/respond.min.js"></script>
+        <script src="js/ie/excanvas.js"></script>
+    <![endif]-->
+</head>
+
+<body class="bg-info" style="background-image: url({% static 'images/slider/sl3.jpg' %})">
+{% block main_content %}
+<section id="content" class="m-t-lg wrapper-md animated fadeInDown">
+    <div class="container">
+        <a class="navbar-brand block" href="{% url 'homepage' %}">
+                <img style="max-height: 100px" src="{% static 'images/fano_logo.jpeg' %}" />
+        </a>
+        <span class="h1 font-bold" style="text-align: center">
+            <p>Registration Form</p>
+        </span>
+
+        <section class="m-b-lg">
+            {% if messages %}
+                    {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }} {% endif %} alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <span style="margin-left: 10px">{{ message }}</span>
+                            </div>
+                    {% endfor %}
+                {% endif %}
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <span style="margin-left: 10px">{{ form.errors }}</span>
+                    </div>
+                {% endif %}
+
+            <div class="col-md-12">
+                <form action="#" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="col-md-6">
+                        <label for="first_name}"> First Name<small>*</small>:</label>
+                        {{ form.first_name }}
+                        <label for="last_name}"> Last Name<small>*</small>: </label>
+                        {{ form.last_name }}
+                        <label for="username}"> Username<small>*</small>: </label>
+                        {{ form.username }}
+                        <label for="email}"> Email<small>*</small>: </label>
+                        {{ form.email }}
+                        <label for="phone}"> Phone<small>*</small>: </label>
+                        {{ form.phone }}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="facebook}"> Facebook URL: </label>
+                        {{ form.facebook }}
+                        <label for="instagram}"> Instagram URL: </label>
+                        {{ form.instagram }}
+                        <label for="address}"> Address<small>*</small>: </label>
+                        {{ form.address }}
+                        <label for="password}"> Password<small>*</small>: </label>
+                        {{ form.password }}
+                        <label for="confirm_password}"> Confirm Password<small>*</small>: </label>
+                        {{ form.confirm_password }}
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="avatar">Artiste Picture<small>*</small>:</label>
+                        {{ form.avatar }}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="track">Upload Track(Please upload your best track, as it will be used to determine your accessbility)<small>*</small>:</label>
+                        {{ form.track }}
+                    </div>
+                    <div class="col-md-12" style="text-align: center">
+                        <button type="submit" class="btn btn-lg lt b-white b-2x btn-rounded" style="color: white; margin-top: 20px">
+                            Sign up
+                        </button>
+
+                        <p class="text-muted text-center">
+                            <small style="color: white">Already have an account?</small>
+                        </p>
+                        <a href="{% url 'login' %}" class="btn btn-lg b-warning btn-info btn-rounded">Sign in</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}
+<!-- footer -->
+<footer id="footer">
+    <div class="text-center padder clearfix">
+        <p> <small>developed by ideaThinkers<br>&copy; 2019</small> </p>
+    </div>
+</footer>
+<!-- / footer -->
+
+<!-- Bootstrap -->
+<!-- App -->
+
+<script src="{% static 'fano_backend/js/app.v1.js' %}"></script>
+<script src="{% static 'fano_backend/js/app.plugin.js' %}"></script>
+<script type="text/javascript" src="{% static 'fano_backend/js/jPlayer/jquery.jplayer.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'fano_backend/js/jPlayer/add-on/jplayer.playlist.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'fano_backend/js/jPlayer/demo.js' %}"></script>
+
+</body>
+</html>

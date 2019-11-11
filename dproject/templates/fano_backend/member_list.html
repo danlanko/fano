@@ -1,0 +1,95 @@
+{% extends 'fano_backend/backend_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+        <link rel="stylesheet" href="{% static 'fano_backend/js/datatables/datatables.css' %}" type="text/css" />
+{% endblock extra_css %}
+
+{% block main_content %}
+
+        <section id="content">
+            <section class="vbox">
+                <section class="scrollable padder">
+                    <div class="m-b-md">
+                        <h3 class="m-b-none">All Members</h3> </div>
+                {% if messages %}
+                            {% for message in messages %}
+                                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }} {% endif %} alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <span style="margin-left: 10px">{{ message }}</span>
+                                    </div>
+                            {% endfor %}
+                     {% endif %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span style="margin-left: 10px">{{ form.errors }}</span>
+                        </div>
+                    {% endif %}
+                    <section class="panel panel-default">
+                        <header class="panel-heading"> Table List <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+                        <div class="table-responsive">
+                            <table class="table table-striped m-b-none" data-ride="datatables">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%">ID</th>
+                                        <th style="width:25%">Join Date</th>
+                                        <th style="width:25%">Full Name</th>
+                                        <th style="width:15%">Username</th>
+                                        <th style="width:5%">Status</th>
+                                        <th style="width:20%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for member in object_list %}
+                                    <tr>
+                                        <td>{{ member.id }}</td>
+                                        <td>{{ member.user.date_joined|date }}</td>
+                                        <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
+                                        <td>{{ member.user }}</td>
+                                        <td>
+                                            {% if member.user.is_active %}
+                                                <label class="label label-success">Active</label>
+                                            {% else %}
+                                                <label class="label label-danger">Pending</label>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'member_profile' member.id member.user_id %}"><button class="btn-xs btn-success"><i class="fa fa-eye"></i></button></a>
+                                            {% if user.member.is_admin %}
+                                                {% if member.user.is_active %}
+                                                    <a href="{% url 'deactivate_member' member.user_id %}" class="confirm-deactivate"><button class="btn-xs btn-warning"><i class="fa fa-times"></i></button></a>
+                                                {% else %}
+                                                    <a href="{% url 'activate_member' member.user_id %}" class="confirm-activate"><button class="btn-xs btn-success"><i class="fa fa-check"></i></button></a>
+                                                {% endif %}
+                                                <a href="{% url 'delete_member' member.user_id %}" class="confirm-delete"><button class="btn-xs btn-delete"><i class="fa fa-trash"></i></button></a>
+                                                <a href="{% url 'proceed_payment' member.user_id %}" class="send_mail"><button class="btn-xs btn-dark"><i class="fa fa-envelope-open"></i></button></a>
+                                            {% endif %}
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+            </section>
+            <a href="table-datatable.html#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
+        </section>
+
+{% endblock main_content %}
+
+{% block extra_js %}
+        <script src="{% static 'fano_backend/js/datatables/jquery.csv-0.71.min.js' %}"></script>
+        <script src="{% static 'fano_backend/js/datatables/demo.js' %}"></script>
+        <script src="{% static 'fano_backend/js/datatables/jquery.dataTables.min.js' %}"></script>
+        <script>
+
+            $(document).on('click', '.send_mail', function(){
+                return confirm('Are you sure you want to proceed?');
+            });
+
+        </script>
+{% endblock extra_js %}
+

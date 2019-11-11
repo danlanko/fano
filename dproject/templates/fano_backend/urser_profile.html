@@ -1,0 +1,134 @@
+{% extends 'fano_backend/backend_base.html' %}
+{% load static %}
+
+{% block main_content %}
+    <section id="content">
+        <section class="vbox">
+            <section class="scrollable">
+                {% if messages %}
+                    {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }} {% endif %} alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <span style="margin-left: 10px">{{ message }}</span>
+                            </div>
+                    {% endfor %}
+                {% endif %}
+                <section class="hbox stretch">
+                    <aside class="aside-lg bg-light lter b-r">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                 <div align="center">
+                               {% if user.member.is_admin %}
+                                     <p>Entry Track</p>
+                                    <audio controls>
+                                        <source src="{{ object.track.url }}" type="audio/mp3">
+                                        <source src="{{ object.track.url }}" type="audio/ogg">
+                                         Your browser does not support the audio element.
+                                    </audio>
+                               {% endif %}
+                                 </div>
+                                    <div class="text-center m-b m-t">
+                                        <a href="#" class="thumb-lg">
+                                            {% if object.avatar %}
+                                                <img src="{{ object.avatar.url }}" class="img-circle">
+                                            {% else %}
+                                                <img src="{% static 'images/user_profile.png' %}">
+                                            {% endif %}
+                                        </a>
+                                        <div>
+                                            <div class="h3 m-t-xs m-b-xs">{{ object.user.username }}</div>
+                                            <small class="text-muted"><i class="fa fa-eye"></i> Last Login<br /> {{ object.user.last_login }}</small> </div>
+                                    </div>
+                                    <div class="panel wrapper">
+                                        <div class="row text-center">
+                                            <div class="col-xs-12">
+                                                <a href="#">
+                                                    <span class="m-b-xs h4 block">Currently</span>
+                                                    <span class="m-b-xs h4 block">{{ object.user.songs_set.count }}</span>
+                                                    <small class="text-muted">Songs Uploaded</small>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group btn-group-justified m-b">
+                                        {% if object.user.is_active %}
+                                        <a class="btn btn-success btn-rounded" data-toggle="button">
+                                            <span class="text"> <i class="fa fa-check"></i> Active Member </span>
+                                        </a>
+                                        {% else %}
+                                        <a class="btn btn-danger btn-rounded" data-toggle="button">
+                                            <span class="text"> <i class="fa fa-times"></i> Inactive Member </span>
+                                        </a>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <div> <small class="text-uc text-xs text-muted">About me</small>
+                                        <p>{{ object.profession }}</p> <small class="text-uc text-xs text-muted">info</small>
+                                        <p>{{ object.about_me }}</p>
+                                        <div class="line"></div>
+                                        <small class="text-uc text-xs text-muted">connection</small>
+                                        <div class="line"></div>
+                                        <p class="m-t-sm">{{ object.phone}}</p>
+                                        <p class="m-t-sm">{{ object.user.email }}</p>
+                                        <div class="line"></div>
+                                        <p class="m-t-sm">
+                                            <a href="{{ object.facebook }}" class="btn btn-rounded btn-twitter btn-icon">
+                                                <i class="fa fa-facebook"></i>
+                                            </a>
+                                            <a href="{{ object.instagram }}" class="btn btn-rounded btn-facebook btn-icon">
+                                                <i class="fa fa-instagram"></i>
+                                            </a>
+                                            <a href="{{ object.instagram }}" class="btn btn-rounded btn-facebook btn-icon">
+                                                <i class="fa fa-twitter"></i>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                    <aside class="bg-white">
+                        <section class="vbox">
+                            <header class="header bg-light lt">
+                                <ul class="nav nav-tabs nav-white">
+                                    <li class="active"><a href="#" data-toggle="tab">Songs</a></li>
+                                </ul>
+                            </header>
+                            <section class="scrollable">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="activity">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            {% for song in user_songs %}
+                                                <li class="list-group-item">
+                                                    <a href="#" class="clear">
+                                                        <small class="pull-right">uploaded <span class="text-danger-dker">{{ song.date|timesince }}</span> ago</small>
+                                                        <strong class="block pull-left">{{ song.title }}</strong>
+                                                        <div align="center">
+                                                            <audio controls>
+                                                                <source src="{{ song.music.url }}" type="audio/mp3">
+                                                                <source src="{{ song.music.url }}" type="audio/ogg">
+                                                                 Your browser does not support the audio element.
+                                                            </audio>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                {% if forloop.last %} <div class="clearfix" style="margin-bottom: 50px"></div> {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                </section>
+            </section>
+        </section>
+        <a href="profile.html#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
+    </section>
+{% endblock main_content %}
+
+{% block extra_js %}
+    <script src="{% static 'fano_backend/js/charts/easypiechart/jquery.easy-pie-chart.js' %}"></script>
+{% endblock extra_js %}

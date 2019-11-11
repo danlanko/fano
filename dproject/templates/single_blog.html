@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block logo %}
+
+{% endblock logo %}
+
+{% block page_content %}
+    <!-- PAGE TITLE SMALL -->
+    <div class="har_page_title har_page_title_great har_image_bck har_fixed har_wht_txt" data-stellar-background-ratio="0.2" data-color="#333">
+
+
+      <!-- Over -->
+      <div class="har_over" data-color="#000" data-opacity="0.8"></div>
+
+      <div class="container text-left">
+        <div class="row">
+          
+          <div class="col-md-8">
+            <h1 class="har_h1_title">{{ object.title }}</h1>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="breadcrumbs">
+              <a href="{% url 'homepage' %}">Home</a><a href="#">Blog</a><span>{{ object.title }}</span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <section id="har_content" class="har_content">
+
+
+        <!-- section -->
+        <section class="har_section">
+            <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+
+                            
+                          
+                    <div class="har_post_info">
+                        {{ object.date|date }}
+                        <span class="slash-divider">/</span>
+                        <a href="02_3_blog_single_sidebar.html#">{{ object.author }}</a>
+                    </div>
+                    {% if object.music %}
+                        <audio controls>
+                            <source src="{{ object.music.url }}" type="audio/mp3">
+                            <source src="{{ object.music.url }}" type="audio/ogg">
+                             Your browser does not support the audio element.
+                        </audio>
+                    {% endif %}
+
+                        {{ object.context|safe }}
+
+
+                </div>
+                <!-- col end -->
+                
+            </div>
+                                
+           
+                    
+            </div>
+            <!-- container end -->
+        </section>
+        <!-- section end -->
+        
+        
+
+    </section>
+    <!-- section end -->
+
+
+{% endblock page_content %}
+        
+    
+

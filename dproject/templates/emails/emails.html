@@ -1,0 +1,47 @@
+{% if type == 'contact_form' %}
+    <p>Hi Fano Team </p>
+    <p>A new contact form was filled, please find details below</p><br/>
+
+    <p>Name: {{ name }}</p>
+    <p>Email: {{ email }}</p>
+    <p>Phone: {{ phone }}</p>
+    <p>Message: {{ message }}</p>  <br />
+
+<p>This is an automatic message from the contact form.</p>
+    Regards.
+{% endif %}
+
+{% if type == 'sign_up_form' %}
+   <p> Hi {{ name }},</p>
+
+    <p>You are welcome to Fano.</p>
+
+    <p>Your account is pending activation, <br />
+    Kindly pay the sum of NGN30,000 to the account below to activate your account.
+    </p>
+
+    <p>Bank: FIDELITY BANK PLC </p>
+    <p>Account No: 4011201305</p>
+    <p>Account Name: STARCRAFT ENTERTAINMENT LIMITED</p>
+
+    <p>Please send evidence of payment to
+        <br /> <span style="font-weight: bolder">info@fano.ng</span> <br />
+        or through WhatsApp <span style="font-weight: bolder">+2348022488913</span>
+    </p>
+
+    <p></p>
+
+    <p>Regards</p>
+
+
+{% endif %}
+
+
+{% if type == 'activate_account' %}
+    <p>Hi {{ name }}</p>
+
+    <p>Your FANO account has been activated.</p>
+    <p>You can go ahead to LOGIN now</p>
+
+    <p>Thanks</p>
+{% endif %}
